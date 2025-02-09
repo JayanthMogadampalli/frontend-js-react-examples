@@ -1,0 +1,95 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Countdown Timer</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        #timer {
+            font-size: 2em;
+            margin: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+    <body>
+         <h1>Countdown Timer</h1>
+         <div id="timer">00:05:00</div>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Pause</button>
+        <button onclick="resetTimer()">Reset</button>
+
+        <script>
+            let initialTime = 5 * 60;
+            let timeLeft = initialTime;
+            let timerInterval = null;
+            let isPaused = false;
+
+
+            function startTimer () {
+                if(isPaused) {
+                    timerInterval = setInterval(() => {
+                        if(timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                        }
+                        else {
+                            timeLeft--;
+                            document.getElementById('timer').innerText = formatTime(timeLeft);
+                        }
+                    }, 1000);
+                } else {
+                    timeLeft = initialTime;
+                    timerInterval = setInterval(() => {
+                        if(timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                        }
+                        else {
+                            timeLeft--;
+                            document.getElementById('timer').innerText = formatTime(timeLeft);
+                        }
+                    }, 1000);
+                }
+            }
+
+            function stopTimer () {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isPaused = true;
+            }
+
+            function resetTimer () {
+                clearInterval(timerInterval);
+                timeLeft = initialTime;
+                document.getElementById('timer').innerText = updateDisplay();
+                isPaused = false;
+            }
+
+            function formatTime (time) {
+                let hours = Math.floor(time / 3600);
+                let minutes = Math.floor((time % 3600) / 60);
+                let seconds = time % 60;
+
+                return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            }
+
+            function updateDisplay() {
+            document.getElementById('timer').innerText = formatTime(timeLeft);
+           }
+
+            updateDisplay();
+        </script>
+    </body>
+</html>
+
+
