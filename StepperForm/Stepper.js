@@ -11,7 +11,7 @@ const Stepper = () => {
         password: ''
     });
     const [currentStep, setCurrentStep] = useState(0);
-    const [steps, setSteps] = useState(["StepOne", "StepTwo", "StepThree"]);
+    const [steps, setSteps] = useState(["Personal Info", "Contact Details", "Review & Submit"]);
 
     const handleChange = (e) => {
         setFormData({
@@ -36,8 +36,7 @@ const Stepper = () => {
 
     return (
         <div style={{width: '400px', margin: '50px auto', textAlign: 'center'}}>
-            <h2>Multi step form</h2>
-            <p>Step {currentStep + 1} of {steps.length}: {steps[currentStep]} </p>
+            <Stepper steps={steps} currentStep={currentStep} />
             {currentStep === 0 && <StepOne formData={formData} handleChange={handleChange} />}
             {currentStep === 1 && <StepTwo formData={formData} handleChange={handleChange} />}
             {currentStep === 2 && <StepThree formData={formData} handleChange={handleChange} />}
