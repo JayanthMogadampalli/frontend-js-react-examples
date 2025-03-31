@@ -34,8 +34,8 @@ function mapAsyncLimit(array, size, asyncFn) {
       }
   
       // Kickstart the first batch of tasks
-      for (let i = 0; i < Math.min(size, array.length); i++) {
-        startNext();
+      for (let i = 0; i <  Math.min(size, array.length); i++) {
+        startNext(); 
       }
     });
   }
