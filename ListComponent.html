@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>List Filter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .filter-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .list-item {
+      padding: 10px;
+      margin-bottom: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <input
+    type="text"
+    id="filterInput"
+    placeholder="Filter by name or category..."
+    class="filter-input"
+  />
+
+  <ul id="listContainer"></ul>
+
+  <script>
+    const initialItems = [
+      { id: 1, name: "Item 1", category: "Category A", color: "red", isActive: false },
+      { id: 2, name: "Item 2", category: "Category B", color: "blue", isActive: false },
+      { id: 3, name: "Item 3", category: "Category A", color: "green", isActive: false },
+      { id: 4, name: "Item 4", category: "Category C", color: "red", isActive: false }
+    ];
+
+    const listContainer = document.getElementById('listContainer');
+    const filterInput = document.getElementById('filterInput');
+
+    function renderList(items) {
+      listContainer.innerHTML = ''; // Clear list
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'list-item';
+        li.textContent = `${item.name} - ${item.category}`;
+        li.style.backgroundColor = item.isActive ? item.color : 'transparent';
+
+        li.addEventListener('click', () => {
+          items = items.map(i => i.id === item.id ? { ...i, isActive: !i.isActive } : i);
+          renderList(getFilteredItems(filterInput.value)); //
+        });
+
+        listContainer.appendChild(li);
+      });
+    }
+
+    function getFilteredItems(term) {
+      return initialItems.filter(item =>
+        item.name.toLowerCase().includes(term.toLowerCase()) ||
+        item.category.toLowerCase().includes(term.toLowerCase())
+      );
+    }
+
+    filterInput.addEventListener('input', (e) => {
+      const search = e.target.value;
+      renderList(getFilteredItems(search));
+    });
+
+    // Initial render
+    renderList(initialItems);
+  </script>
+
+</body>
+</html>

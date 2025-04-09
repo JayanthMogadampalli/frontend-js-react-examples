@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OTP Input</title>
+  <style>
+    .otp-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .otp-input {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter OTP:</h2>
+  <div class="otp-container" id="otp">
+  </div>
+  
+  <script>
+    const otpLength = 6;
+    const otpContainer = document.getElementById('otp');
+
+    // Create OTP input fields
+    for(let i=0; i< otpLength; i++) {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'otp-input';
+      input.maxLength = 1;
+      otpContainer.appendChild(input);
+    }
+    
+    const inputs = document.querySelectorAll('.otp-input');
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', function(e) {
+          if(!/^[0-9]+$/.test(e.target.value)) {
+            e.target.value = '';
+            return;
+          }
+
+          if(index < otpLength - 1) {
+            inputs[index + 1].focus();
+          }
+      });
+
+      input.addEventListener('keydown', function(e) {
+          if(e.key === 'Backspace' && e.target.value === '') {
+            if(index > 0) {
+              inputs[index - 1].focus();
+            }
+          }
+      });
+    }); 
+
+    otpContainer.addEventListener('paste', function(e) {
+        const pasteData = e.clipboardData.getData('text');
+        const digits = pasteData.slice(0, otpLength).split('');
+        digits.forEach((digit, i) => {
+          if(i < otpLength) {
+            inputs[i].value = digit;
+          }
+        });
+        if(inputs[otpLength - 1].value) {
+          inputs[otpLength - 1].focus();
+        }
+
+        e.preventDefault();
+      });
+
+
+    
+  </script>
+</body>
+</html>
