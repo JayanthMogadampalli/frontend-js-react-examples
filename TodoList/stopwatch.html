@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+   <h1>Stopwatch</h1>
+   <div class="stopwatch" id="display">00:00:00</div>
+
+   <button class="start" onclick="startTimer()">Start</button>
+  <button class="stop" onclick="stopTimer()">Stop</button>
+  <button class="reset" onclick="resetTimer()">Reset</button>
+
+  <script>
+
+    let seconds = 0;
+    let interval = null;
+
+    function updateDisplay() {
+        const display = document.getElementById('display');
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        display.innerHTML = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+        if (interval) {
+            return;
+        }
+
+        interval = setInterval(()=> {
+            seconds++;
+             updateDisplay();
+        }, 1000);
+    }
+
+   function stopTimer() {
+        clearInterval(interval);
+        interval = null;
+   } 
+
+   function resetTimer() {
+        clearInterval(interval);
+        interval = null;
+        seconds = 0;
+        updateDisplay();
+   }
+
+  </script>
+</body>
+</html>
